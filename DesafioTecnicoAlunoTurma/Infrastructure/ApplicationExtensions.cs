@@ -26,12 +26,14 @@ namespace DesafioTecnicoAlunoTurma.Infrastructure
         {
             services.AddScoped<IAlunoRepository, AlunoRepository>();
             services.AddScoped<ITurmaRepository, TurmaRepository>();
+            services.AddScoped<IAlunoTurmaRepository, AlunoTurmaRepository>();
         }
 
         private static void AddServices([NotNull] this IServiceCollection services)
         {
             services.AddScoped<IAlunoService, AlunoService>();
             services.AddScoped<ITurmaService, TurmaService>();
+            services.AddScoped<IAlunoTurmaService, AlunoTurmaService>();
         }
     }
 }
