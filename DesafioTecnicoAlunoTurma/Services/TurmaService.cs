@@ -1,4 +1,6 @@
-﻿using DesafioTecnicoAlunoTurma.Interfaces.Repositories;
+﻿using AutoMapper;
+using DesafioTecnicoAlunoTurma.DTO;
+using DesafioTecnicoAlunoTurma.Interfaces.Repositories;
 using DesafioTecnicoAlunoTurma.Interfaces.Services;
 using DesafioTecnicoAlunoTurma.Models;
 using DesafioTecnicoAlunoTurma.Pagination;
@@ -9,15 +11,19 @@ namespace DesafioTecnicoAlunoTurma.Services
     public class TurmaService : ITurmaService
     {
         private readonly ITurmaRepository _turmaRepository;
+        private readonly IMapper _mapper;
 
-        public TurmaService(ITurmaRepository turmaRepository)
+        public TurmaService(ITurmaRepository turmaRepository, IMapper mapper)
         {
             _turmaRepository = turmaRepository;
+            _mapper = mapper;
         }
 
-        public async Task<PagedList<Turma>> GetAll(PaginationParameters paginationParameters)
+        public async Task<PagedList<TurmaDTO>> GetAll(PaginationParametersDTO paginationParametersDTO)
         {
-            return await _turmaRepository.GetAll(paginationParameters);
+            var paginationParametersEntity = _mapper.Map<PaginationParameters>(paginationParametersDTO);
+            var turmaEntity = await _turmaRepository.GetAll(paginationParametersEntity);
+            return _mapper.Map<PagedList<TurmaDTO>>(turmaEntity);
         }
 
         public async Task<Turma> GetById(int id)
