@@ -1,6 +1,7 @@
 ﻿using DesafioTecnicoAlunoTurma.Interfaces.Repositories;
 using DesafioTecnicoAlunoTurma.Interfaces.Services;
 using DesafioTecnicoAlunoTurma.Models;
+using DesafioTecnicoAlunoTurma.Pagination;
 using DesafioTecnicoAlunoTurma.Repositories;
 
 namespace DesafioTecnicoAlunoTurma.Services
@@ -14,9 +15,9 @@ namespace DesafioTecnicoAlunoTurma.Services
             _turmaRepository = turmaRepository;
         }
 
-        public async Task<IEnumerable<Turma>> GetAll()
+        public async Task<PagedList<Turma>> GetAll(PaginationParameters paginationParameters)
         {
-            return await _turmaRepository.GetAll();
+            return await _turmaRepository.GetAll(paginationParameters);
         }
 
         public async Task<Turma> GetById(int id)

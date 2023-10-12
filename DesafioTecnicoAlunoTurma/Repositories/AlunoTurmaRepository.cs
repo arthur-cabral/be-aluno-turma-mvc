@@ -2,6 +2,7 @@
 using DesafioTecnicoAlunoTurma.Infrastructure;
 using DesafioTecnicoAlunoTurma.Interfaces.Repositories;
 using DesafioTecnicoAlunoTurma.Models;
+using DesafioTecnicoAlunoTurma.Pagination;
 using System.Diagnostics.CodeAnalysis;
 
 namespace DesafioTecnicoAlunoTurma.Repositories
@@ -12,7 +13,7 @@ namespace DesafioTecnicoAlunoTurma.Repositories
         {
         }
 
-        public async Task<IEnumerable<AlunoTurma>> GetAllAlunosTurmas()
+        public async Task<PagedList<AlunoTurma>> GetAll(PaginationParameters paginationParameters)
         {
             string sql = @"select 
                                 att.id,
@@ -30,9 +31,14 @@ namespace DesafioTecnicoAlunoTurma.Repositories
                             inner join dbo.turma as t on att.turma_id = t.id
                             inner join dbo.aluno as a on att.aluno_id = a.id
                             where att.ativo = 1 and t.ativo = 1 and a.ativo = 1
-                            order by t.id";
+                            order by t.id offset @offset rows fetch next @limit rows only";
 
-            return await Connection.QueryAsync<AlunoTurma>(sql, Transaction);
+            var result = await Connection.QueryAsync<AlunoTurma>(sql, new { offset = paginationParameters.PageNumber, limit = paginationParameters.PageSize }, Transaction);
+            return PagedList<AlunoTurma>.ToPagedList(
+                result.AsQueryable(),
+                paginationParameters.PageNumber,
+                paginationParameters.PageSize
+            );
         }
 
         public async Task<bool> ExistsAlunoInTurma(int alunoId, int turmaId)
