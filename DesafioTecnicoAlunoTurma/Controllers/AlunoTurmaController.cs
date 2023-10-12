@@ -34,19 +34,34 @@ namespace DesafioTecnicoAlunoTurma.Controllers
 
         public async Task<IActionResult> Create(AlunoTurma alunoTurma)
         {
-            await _alunoTurmaService.Create(alunoTurma);
+            var createAlunoTurma = await _alunoTurmaService.Create(alunoTurma);
+            if (!createAlunoTurma.Success)
+            {
+                ModelState.AddModelError(string.Empty, createAlunoTurma.Message);
+                return View("FormCreateAlunoTurma");
+            }
             return RedirectToAction("GetAll");
         }
 
         public async Task<IActionResult> Update(AlunoTurma alunoTurma)
         {
-            await _alunoTurmaService.Update(alunoTurma);
+            var updateAlunoTurma = await _alunoTurmaService.Update(alunoTurma);
+            if (!updateAlunoTurma.Success)
+            {
+                ModelState.AddModelError(string.Empty, updateAlunoTurma.Message);
+                return View("FormUpdateAlunoTurma");
+            }
             return RedirectToAction("GetAll");
         }
 
         public async Task<IActionResult> Delete(AlunoTurma alunoTurma)
         {
-            await _alunoTurmaService.Delete(alunoTurma.Id);
+            var deleteAlunoTurma = await _alunoTurmaService.Delete(alunoTurma.Id);
+            if (!deleteAlunoTurma.Success)
+            {
+                ModelState.AddModelError(string.Empty, deleteAlunoTurma.Message);
+                return View("GetAll");
+            }
             return RedirectToAction("GetAll");
         }
     }

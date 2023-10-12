@@ -42,7 +42,12 @@ namespace DesafioTecnicoAlunoTurma.Services
                 DateTime dateTime = DateTime.Now;
                 if (turma.Ano <= dateTime.Year)
                 {
-                    throw new Exception("Não é possível criar uma turma com a data anterior a atual");
+                    throw new Exception("Não é possível criar uma turma com o ano anterior ao atual");
+                }
+                var existsByName = await _turmaRepository.ExistsByName(turma.NomeTurma);
+                if (existsByName)
+                {
+                    throw new Exception("Já existe uma turma com esse nome");
                 }
                 turma.Ativo = true;
                 await _turmaRepository.Create(turma);
@@ -58,6 +63,16 @@ namespace DesafioTecnicoAlunoTurma.Services
         {
             try
             {
+                DateTime dateTime = DateTime.Now;
+                if (turma.Ano <= dateTime.Year)
+                {
+                    throw new Exception("Não é possível atualizar uma turma com o ano anterior ao atual");
+                }
+                var existsByName = await _turmaRepository.ExistsByName(turma.NomeTurma);
+                if (existsByName)
+                {
+                    throw new Exception("Já existe uma turma com esse nome");
+                }
                 await _turmaRepository.Update(turma);
                 return new MessageResponse(true, "Turma atualizada com sucesso!");
             }

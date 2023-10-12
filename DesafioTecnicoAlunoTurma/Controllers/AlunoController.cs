@@ -2,6 +2,7 @@
 using DesafioTecnicoAlunoTurma.Interfaces.Services;
 using DesafioTecnicoAlunoTurma.Models;
 using DesafioTecnicoAlunoTurma.Pagination;
+using DesafioTecnicoAlunoTurma.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -34,13 +35,23 @@ namespace DesafioTecnicoAlunoTurma.Controllers
         
         public async Task<IActionResult> Create(Aluno aluno)
         {
-            await _alunoService.Create(aluno);
+            var createAluno = await _alunoService.Create(aluno);
+            if (!createAluno.Success)
+            {
+                ModelState.AddModelError(string.Empty, createAluno.Message);
+                return View("FormCreateTurma");
+            }
             return RedirectToAction("GetAll");
         }
 
         public async Task<IActionResult> Update(Aluno aluno)
         {
-            await _alunoService.Update(aluno);
+            var updateAluno = await _alunoService.Update(aluno);
+            if (!updateAluno.Success)
+            {
+                ModelState.AddModelError(string.Empty, updateAluno.Message);
+                return View("FormUpdateTurma");
+            }
             return RedirectToAction("GetAll");
         }
 

@@ -47,6 +47,12 @@ namespace DesafioTecnicoAlunoTurma.Repositories
             return await Connection.ExecuteScalarAsync<bool>(sql, new { id }, Transaction);
         }
 
+        public async Task<bool> ExistsByName(string nomeTurma)
+        {
+            const string sql = @"select count(*) from dbo.turma where nome_turma = @nomeTurma";
+            return await Connection.ExecuteScalarAsync<bool>(sql, new { nomeTurma }, Transaction);
+        }
+
         public async Task Create(Turma turma)
         {
             string sql = @"insert into dbo.turma

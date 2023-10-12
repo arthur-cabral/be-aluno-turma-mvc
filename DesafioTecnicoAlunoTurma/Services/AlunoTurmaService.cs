@@ -70,6 +70,8 @@ namespace DesafioTecnicoAlunoTurma.Services
                 {
                     throw new Exception("O aluno já existe na turma");
                 }
+                alunoTurma.Aluno.Id = alunoTurma.AlunoId;
+                alunoTurma.Turma.Id = alunoTurma.TurmaId;
                 await _alunoTurmaRepository.Update(alunoTurma);
                 return new MessageResponse(true, "Relação aluno turma atualizada com sucesso!");
             }
@@ -83,6 +85,11 @@ namespace DesafioTecnicoAlunoTurma.Services
         {
             try
             {
+                var exists = await _alunoTurmaRepository.Exists(id);
+                if (!exists)
+                {
+                    throw new Exception("A relação aluno turma não existe");
+                }
                 await _alunoTurmaRepository.Delete(id);
                 return new MessageResponse(true, "Relação aluno turma inativada com sucesso!");
             }

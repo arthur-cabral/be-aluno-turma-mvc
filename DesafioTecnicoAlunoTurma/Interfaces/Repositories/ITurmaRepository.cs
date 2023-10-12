@@ -8,6 +8,7 @@ namespace DesafioTecnicoAlunoTurma.Interfaces.Repositories
         Task<PagedList<Turma>> GetAll(PaginationParameters paginationParameters);
         Task<Turma> GetById(int id);
         Task<bool> Exists(int id);
+        Task<bool> ExistsByName(string name);
         Task Create(Turma aluno);
         Task Update(Turma aluno);
         Task Delete(int id);
