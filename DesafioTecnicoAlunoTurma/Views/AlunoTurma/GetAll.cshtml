@@ -1,0 +1,64 @@
+﻿@model IEnumerable<DesafioTecnicoAlunoTurma.Models.AlunoTurma>
+
+@{
+    ViewData["Title"] = "GetAll";
+}
+
+<h1>Lista de todas as turmas e seus alunos</h1>
+
+<p>
+    <a asp-action="FormCreateAlunoTurma">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AlunoId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Aluno.Nome)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TurmaId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Turma.NomeTurma)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ativo)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AlunoId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Aluno.Nome)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TurmaId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Turma.NomeTurma)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ativo)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "FormUpdateAlunoTurma", new { id = item.Id, alunoId = item.AlunoId, turmaId = item.TurmaId, ativo = item.Ativo }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
