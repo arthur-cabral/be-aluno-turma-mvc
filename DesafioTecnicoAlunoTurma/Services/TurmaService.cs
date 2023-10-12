@@ -35,22 +35,23 @@ namespace DesafioTecnicoAlunoTurma.Services
             throw new Exception("Turma não encontrada.");
         }
 
-        public async Task<MessageResponse> Create(Turma turma)
+        public async Task<MessageResponse> Create(TurmaDTO turmaDTO)
         {
             try
             {
                 DateTime dateTime = DateTime.Now;
-                if (turma.Ano <= dateTime.Year)
+                if (turmaDTO.Ano <= dateTime.Year)
                 {
                     throw new Exception("Não é possível criar uma turma com o ano anterior ao atual");
                 }
-                var existsByName = await _turmaRepository.ExistsByName(turma.NomeTurma);
+                var existsByName = await _turmaRepository.ExistsByName(turmaDTO.NomeTurma);
                 if (existsByName)
                 {
                     throw new Exception("Já existe uma turma com esse nome");
                 }
-                turma.Ativo = true;
-                await _turmaRepository.Create(turma);
+                turmaDTO.Ativo = true;
+                var turmaEntity = _mapper.Map<Turma>(turmaDTO);
+                await _turmaRepository.Create(turmaEntity);
                 return new MessageResponse(true, "Turma criado com sucesso!");
             }
             catch (Exception ex)
@@ -59,21 +60,22 @@ namespace DesafioTecnicoAlunoTurma.Services
             }
         }
 
-        public async Task<MessageResponse> Update(Turma turma)
+        public async Task<MessageResponse> Update(TurmaDTO turmaDTO)
         {
             try
             {
                 DateTime dateTime = DateTime.Now;
-                if (turma.Ano <= dateTime.Year)
+                if (turmaDTO.Ano <= dateTime.Year)
                 {
                     throw new Exception("Não é possível atualizar uma turma com o ano anterior ao atual");
                 }
-                var existsByName = await _turmaRepository.ExistsByName(turma.NomeTurma);
+                var existsByName = await _turmaRepository.ExistsByName(turmaDTO.NomeTurma);
                 if (existsByName)
                 {
                     throw new Exception("Já existe uma turma com esse nome");
                 }
-                await _turmaRepository.Update(turma);
+                var turmaEntity = _mapper.Map<Turma>(turmaDTO);
+                await _turmaRepository.Update(turmaEntity);
                 return new MessageResponse(true, "Turma atualizada com sucesso!");
             }
             catch (Exception ex)

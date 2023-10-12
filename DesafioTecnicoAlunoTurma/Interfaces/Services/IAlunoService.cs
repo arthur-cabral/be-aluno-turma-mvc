@@ -8,8 +8,8 @@ namespace DesafioTecnicoAlunoTurma.Interfaces.Services
     {
         Task<PagedList<AlunoDTO>> GetAll(PaginationParametersDTO paginationParametersDTO);
         Task<Aluno> GetById(int id);
-        Task<MessageResponse> Create(Aluno aluno);
-        Task<MessageResponse> Update(Aluno aluno);
+        Task<MessageResponse> Create(AlunoDTO alunoDTO);
+        Task<MessageResponse> Update(AlunoDTO alunoDTO);
         Task<MessageResponse> Delete(int id);
     }
 }

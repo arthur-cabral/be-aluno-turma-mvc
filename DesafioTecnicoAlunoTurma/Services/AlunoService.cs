@@ -35,12 +35,13 @@ namespace DesafioTecnicoAlunoTurma.Services
             throw new Exception("Aluno não encontrado.");
         }
 
-        public async Task<MessageResponse> Create(Aluno aluno)
+        public async Task<MessageResponse> Create(AlunoDTO alunoDTO)
         {
             try
             {
-                SetAlunoPreData(aluno);
-                await _alunoRepository.Create(aluno);
+                SetAlunoPreData(alunoDTO);
+                var alunoEntity = _mapper.Map<Aluno>(alunoDTO);
+                await _alunoRepository.Create(alunoEntity);
                 return new MessageResponse(true, "Aluno criado com sucesso!");
             } 
             catch (Exception ex)
@@ -49,19 +50,20 @@ namespace DesafioTecnicoAlunoTurma.Services
             }
         }
 
-        private static void SetAlunoPreData(Aluno aluno)
+        private static void SetAlunoPreData(AlunoDTO alunoDTO)
         {
             const int WorkFactor = 12;
-            var hashedPassword = HashPassword(aluno.Senha, WorkFactor);
-            aluno.Senha = hashedPassword;
-            aluno.Ativo = true;
+            var hashedPassword = HashPassword(alunoDTO.Senha, WorkFactor);
+            alunoDTO.Senha = hashedPassword;
+            alunoDTO.Ativo = true;
         }
 
-        public async Task<MessageResponse> Update(Aluno aluno)
+        public async Task<MessageResponse> Update(AlunoDTO alunoDTO)
         {
             try
             {
-                await _alunoRepository.Update(aluno);
+                var alunoEntity = _mapper.Map<Aluno>(alunoDTO);
+                await _alunoRepository.Update(alunoEntity);
                 return new MessageResponse(true, "Aluno atualizado com sucesso!");
             }
             catch (Exception ex)

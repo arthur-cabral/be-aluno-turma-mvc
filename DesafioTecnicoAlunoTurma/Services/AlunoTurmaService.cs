@@ -35,27 +35,28 @@ namespace DesafioTecnicoAlunoTurma.Services
             return _mapper.Map<PagedList<AlunoTurmaDTO>>(alunosTurmas);
         }
 
-        public async Task<MessageResponse> Create(AlunoTurma alunoTurma)
+        public async Task<MessageResponse> Create(AlunoTurmaDTO alunoTurmaDTO)
         {
             try
             {
-                var existsAlunoInTurma = await _alunoTurmaRepository.ExistsAlunoInTurma(alunoTurma.AlunoId, alunoTurma.TurmaId);
+                var existsAlunoInTurma = await _alunoTurmaRepository.ExistsAlunoInTurma(alunoTurmaDTO.AlunoId, alunoTurmaDTO.TurmaId);
                 if (existsAlunoInTurma)
                 {
                     throw new Exception("O aluno já existe na turma");
                 }
-                var existsAluno = await _alunoRepository.Exists(alunoTurma.AlunoId);
-                var existsTurma = await _turmaRepository.Exists(alunoTurma.TurmaId);
+                var existsAluno = await _alunoRepository.Exists(alunoTurmaDTO.AlunoId);
+                var existsTurma = await _turmaRepository.Exists(alunoTurmaDTO.TurmaId);
                 if (existsAluno && existsTurma)
                 {
-                    alunoTurma.Aluno.Id = alunoTurma.AlunoId;
-                    alunoTurma.Turma.Id = alunoTurma.TurmaId;
+                    alunoTurmaDTO.Aluno.Id = alunoTurmaDTO.AlunoId;
+                    alunoTurmaDTO.Turma.Id = alunoTurmaDTO.TurmaId;
                 } else
                 {
                     throw new Exception("O aluno e/ou a turma não existem");
                 }
-                alunoTurma.Ativo = true;
-                await _alunoTurmaRepository.Create(alunoTurma);
+                alunoTurmaDTO.Ativo = true;
+                var alunoTurmaEntity = _mapper.Map<AlunoTurma>(alunoTurmaDTO);
+                await _alunoTurmaRepository.Create(alunoTurmaEntity);
                 return new MessageResponse(true, "Relação aluno turma criada com sucesso!");
             }
             catch (Exception ex)
@@ -64,27 +65,28 @@ namespace DesafioTecnicoAlunoTurma.Services
             }
         }
 
-        public async Task<MessageResponse> Update(AlunoTurma alunoTurma)
+        public async Task<MessageResponse> Update(AlunoTurmaDTO alunoTurmaDTO)
         {
             try
             {
-                var existsAlunoInTurma = await _alunoTurmaRepository.ExistsAlunoInTurma(alunoTurma.AlunoId, alunoTurma.TurmaId);
+                var existsAlunoInTurma = await _alunoTurmaRepository.ExistsAlunoInTurma(alunoTurmaDTO.AlunoId, alunoTurmaDTO.TurmaId);
                 if (existsAlunoInTurma)
                 {
                     throw new Exception("O aluno já existe na turma");
                 }
-                var existsAluno = await _alunoRepository.Exists(alunoTurma.AlunoId);
-                var existsTurma = await _turmaRepository.Exists(alunoTurma.TurmaId);
+                var existsAluno = await _alunoRepository.Exists(alunoTurmaDTO.AlunoId);
+                var existsTurma = await _turmaRepository.Exists(alunoTurmaDTO.TurmaId);
                 if (existsAluno && existsTurma)
                 {
-                    alunoTurma.Aluno.Id = alunoTurma.AlunoId;
-                    alunoTurma.Turma.Id = alunoTurma.TurmaId;
+                    alunoTurmaDTO.Aluno.Id = alunoTurmaDTO.AlunoId;
+                    alunoTurmaDTO.Turma.Id = alunoTurmaDTO.TurmaId;
                 }
                 else
                 {
                     throw new Exception("O aluno e/ou a turma não existem");
                 }
-                await _alunoTurmaRepository.Update(alunoTurma);
+                var alunoTurmaEntity = _mapper.Map<AlunoTurma>(alunoTurmaDTO);
+                await _alunoTurmaRepository.Update(alunoTurmaEntity);
                 return new MessageResponse(true, "Relação aluno turma atualizada com sucesso!");
             }
             catch (Exception ex)

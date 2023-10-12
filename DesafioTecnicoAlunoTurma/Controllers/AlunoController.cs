@@ -28,14 +28,14 @@ namespace DesafioTecnicoAlunoTurma.Controllers
             return View();
         }
 
-        public async Task<IActionResult> FormUpdateAluno(Aluno aluno)
+        public async Task<IActionResult> FormUpdateAluno(AlunoDTO alunoDTO)
         {
-            return View(aluno);
+            return View(alunoDTO);
         }
         
-        public async Task<IActionResult> Create(Aluno aluno)
+        public async Task<IActionResult> Create(AlunoDTO alunoDTO)
         {
-            var createAluno = await _alunoService.Create(aluno);
+            var createAluno = await _alunoService.Create(alunoDTO);
             if (!createAluno.Success)
             {
                 ModelState.AddModelError(string.Empty, createAluno.Message);
@@ -44,9 +44,9 @@ namespace DesafioTecnicoAlunoTurma.Controllers
             return RedirectToAction("GetAll");
         }
 
-        public async Task<IActionResult> Update(Aluno aluno)
+        public async Task<IActionResult> Update(AlunoDTO alunoDTO)
         {
-            var updateAluno = await _alunoService.Update(aluno);
+            var updateAluno = await _alunoService.Update(alunoDTO);
             if (!updateAluno.Success)
             {
                 ModelState.AddModelError(string.Empty, updateAluno.Message);
