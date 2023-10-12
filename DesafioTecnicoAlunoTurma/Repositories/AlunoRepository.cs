@@ -34,7 +34,7 @@ namespace DesafioTecnicoAlunoTurma.Repositories
                                from dbo.aluno
                                where id = @id";
 
-            return await Connection.ExecuteScalarAsync<Aluno>(sql, new { id }, Transaction);
+            return await Connection.QueryFirstOrDefaultAsync<Aluno>(sql, new { id }, Transaction);
         }
 
         public async Task<bool> Exists(int id)

@@ -32,7 +32,7 @@ namespace DesafioTecnicoAlunoTurma.Repositories
                                from dbo.turma
                                where id = @id";
 
-            return await Connection.ExecuteScalarAsync<Turma>(sql, new { id }, Transaction);
+            return await Connection.QueryFirstOrDefaultAsync<Turma>(sql, new { id }, Transaction);
         }
 
         public async Task<bool> Exists(int id)
