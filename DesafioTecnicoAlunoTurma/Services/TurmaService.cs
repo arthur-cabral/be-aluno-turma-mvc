@@ -30,14 +30,13 @@ namespace DesafioTecnicoAlunoTurma.Services
 
         public async Task<MessageResponse> Create(Turma turma)
         {
-            DateTime dateTime = DateTime.Now;
-            if (turma.Ano <= dateTime.Year)
-            {
-                return new MessageResponse(false, "Não é possível criar uma turma com a data anterior a atual");
-            }
-            
             try
             {
+                DateTime dateTime = DateTime.Now;
+                if (turma.Ano <= dateTime.Year)
+                {
+                    throw new Exception("Não é possível criar uma turma com a data anterior a atual");
+                }
                 turma.Ativo = true;
                 await _turmaRepository.Create(turma);
                 return new MessageResponse(true, "Turma criado com sucesso!");
