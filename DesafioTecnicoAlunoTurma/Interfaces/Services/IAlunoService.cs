@@ -1,11 +1,12 @@
-﻿using DesafioTecnicoAlunoTurma.Models;
+﻿using DesafioTecnicoAlunoTurma.DTO;
+using DesafioTecnicoAlunoTurma.Models;
 using DesafioTecnicoAlunoTurma.Pagination;
 
 namespace DesafioTecnicoAlunoTurma.Interfaces.Services
 {
     public interface IAlunoService
     {
-        Task<PagedList<Aluno>> GetAll(PaginationParameters paginationParameters);
+        Task<PagedList<AlunoDTO>> GetAll(PaginationParametersDTO paginationParametersDTO);
         Task<Aluno> GetById(int id);
         Task<MessageResponse> Create(Aluno aluno);
         Task<MessageResponse> Update(Aluno aluno);

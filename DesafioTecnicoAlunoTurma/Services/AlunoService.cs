@@ -1,4 +1,6 @@
-﻿using DesafioTecnicoAlunoTurma.Interfaces.Repositories;
+﻿using AutoMapper;
+using DesafioTecnicoAlunoTurma.DTO;
+using DesafioTecnicoAlunoTurma.Interfaces.Repositories;
 using DesafioTecnicoAlunoTurma.Interfaces.Services;
 using DesafioTecnicoAlunoTurma.Models;
 using DesafioTecnicoAlunoTurma.Pagination;
@@ -9,15 +11,19 @@ namespace DesafioTecnicoAlunoTurma.Services
     public class AlunoService : IAlunoService
     {
         private readonly IAlunoRepository _alunoRepository;
+        private readonly IMapper _mapper;
 
-        public AlunoService(IAlunoRepository alunoRepository)
+        public AlunoService(IAlunoRepository alunoRepository, IMapper mapper)
         {
             _alunoRepository = alunoRepository;
+            _mapper = mapper;
         }
 
-        public async Task<PagedList<Aluno>> GetAll(PaginationParameters paginationParameters)
+        public async Task<PagedList<AlunoDTO>> GetAll(PaginationParametersDTO paginationParametersDTO)
         {
-            return await _alunoRepository.GetAll(paginationParameters);
+            var paginationParametersEntity = _mapper.Map<PaginationParameters>(paginationParametersDTO);
+            var alunoEntity = await _alunoRepository.GetAll(paginationParametersEntity);
+            return _mapper.Map<PagedList<AlunoDTO>>(alunoEntity);
         }
 
         public async Task<Aluno> GetById(int id)
@@ -31,12 +37,9 @@ namespace DesafioTecnicoAlunoTurma.Services
 
         public async Task<MessageResponse> Create(Aluno aluno)
         {
-            const int WorkFactor = 12;
             try
             {
-                var hashedPassword = HashPassword(aluno.Senha, WorkFactor);
-                aluno.Senha = hashedPassword;
-                aluno.Ativo = true;
+                SetAlunoPreData(aluno);
                 await _alunoRepository.Create(aluno);
                 return new MessageResponse(true, "Aluno criado com sucesso!");
             } 
@@ -44,6 +47,14 @@ namespace DesafioTecnicoAlunoTurma.Services
             {
                 return new MessageResponse(false, ex.Message);
             }
+        }
+
+        private static void SetAlunoPreData(Aluno aluno)
+        {
+            const int WorkFactor = 12;
+            var hashedPassword = HashPassword(aluno.Senha, WorkFactor);
+            aluno.Senha = hashedPassword;
+            aluno.Ativo = true;
         }
 
         public async Task<MessageResponse> Update(Aluno aluno)
