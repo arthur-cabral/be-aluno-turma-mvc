@@ -21,9 +21,6 @@
             <th>
                 Ano
             </th>
-            <th>
-                Ativo
-            </th>
             <th></th>
         </tr>
     </thead>
@@ -40,11 +37,8 @@
                 @Html.DisplayFor(modelItem => item.Ano)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Ativo)
-            </td>
-            <td>
                 @Html.ActionLink("Edit", "FormUpdateTurma", new { item.Id, item.NomeTurma, item.Ano, item.Ativo }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                @Html.ActionLink("Deactivate", "Delete", new { id = item.Id })
             </td>
         </tr>
 }

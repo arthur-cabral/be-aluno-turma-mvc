@@ -21,9 +21,6 @@
             <th>
                 Usuario
             </th>
-            <th>
-                Ativo
-            </th>
             <th></th>
         </tr>
     </thead>
@@ -40,11 +37,8 @@
                 @Html.DisplayFor(modelItem => item.Usuario)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Ativo)
-            </td>
-            <td>
                 @Html.ActionLink("Edit", "FormUpdateAluno", new { id = item.Id, nome = item.Nome, usuario = item.Usuario, senha = item.Senha, ativo = item.Ativo }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                @Html.ActionLink("Deactivate", "Delete", new { id = item.Id })
             </td>
         </tr>
 }

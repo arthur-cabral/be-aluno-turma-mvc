@@ -27,9 +27,6 @@
             <th>
                 Nome da turma
             </th>
-            <th>
-                Ativo
-            </th>
             <th></th>
         </tr>
     </thead>
@@ -52,11 +49,8 @@
                 @Html.DisplayFor(modelItem => item.Turma.NomeTurma)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Ativo)
-            </td>
-            <td>
                 @Html.ActionLink("Edit", "FormUpdateAlunoTurma", new { id = item.Id, alunoId = item.AlunoId, turmaId = item.TurmaId, ativo = item.Ativo }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                    @Html.ActionLink("Deactivate", "Delete", new { id = item.Id })
             </td>
         </tr>
 }
