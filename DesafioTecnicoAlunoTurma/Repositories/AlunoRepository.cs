@@ -2,6 +2,7 @@
 using DesafioTecnicoAlunoTurma.Infrastructure;
 using DesafioTecnicoAlunoTurma.Interfaces.Repositories;
 using DesafioTecnicoAlunoTurma.Models;
+using DesafioTecnicoAlunoTurma.Pagination;
 using System.Reflection;
 
 namespace DesafioTecnicoAlunoTurma.Repositories
@@ -11,7 +12,7 @@ namespace DesafioTecnicoAlunoTurma.Repositories
         public AlunoRepository(DbContext context) : base(context)
         {
         }
-        public async Task<IEnumerable<Aluno>> GetAll()
+        public async Task<PagedList<Aluno>> GetAll(PaginationParameters paginationParameters)
         {
             const string sql = @"select
                                id,
@@ -19,9 +20,14 @@ namespace DesafioTecnicoAlunoTurma.Repositories
                                usuario,
                                senha
                                from dbo.aluno
-                               where ativo = 1";
+                               where ativo = 1 order by id offset @offset rows fetch next @limit rows only";
 
-            return await Connection.QueryAsync<Aluno>(sql, Transaction);
+            var result = await Connection.QueryAsync<Aluno>(sql, new { offset = paginationParameters.PageNumber, limit = paginationParameters.PageSize }, Transaction);
+            return PagedList<Aluno>.ToPagedList(
+                result.AsQueryable(), 
+                paginationParameters.PageNumber,
+                paginationParameters.PageSize
+            );
         }
 
         public async Task<Aluno> GetById(int id)

@@ -1,6 +1,7 @@
 ﻿using DesafioTecnicoAlunoTurma.Interfaces.Repositories;
 using DesafioTecnicoAlunoTurma.Interfaces.Services;
 using DesafioTecnicoAlunoTurma.Models;
+using DesafioTecnicoAlunoTurma.Pagination;
 using static BCrypt.Net.BCrypt;
 
 namespace DesafioTecnicoAlunoTurma.Services
@@ -14,9 +15,9 @@ namespace DesafioTecnicoAlunoTurma.Services
             _alunoRepository = alunoRepository;
         }
 
-        public async Task<IEnumerable<Aluno>> GetAll()
+        public async Task<PagedList<Aluno>> GetAll(PaginationParameters paginationParameters)
         {
-            return await _alunoRepository.GetAll();
+            return await _alunoRepository.GetAll(paginationParameters);
         }
 
         public async Task<Aluno> GetById(int id)

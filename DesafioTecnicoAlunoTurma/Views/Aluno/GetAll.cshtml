@@ -1,4 +1,4 @@
-﻿@model IEnumerable<DesafioTecnicoAlunoTurma.Models.Aluno>
+﻿@model PagedList<DesafioTecnicoAlunoTurma.Models.Aluno>
 
 @{
     ViewData["Title"] = "GetAll";
@@ -13,16 +13,16 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Id)
+                Id
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Nome)
+                Nome
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Usuario)
+                Usuario
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Ativo)
+                Ativo
             </th>
             <th></th>
         </tr>
@@ -50,3 +50,41 @@
 }
     </tbody>
 </table>
+
+@{
+    var nextPage = Model.CurrentPage + 1;
+    var previousPage = Model.CurrentPage - 1;
+}
+
+<p>
+    @if (Model.HasPrevious)
+    {
+        <a asp-action="GetAll" asp-route-pageNumber="0">First</a>
+        <a asp-action="GetAll" asp-route-pageNumber="@previousPage">Previous</a>
+    }
+
+    @if (Model.HasNext)
+    {
+        <a asp-action="GetAll" asp-route-pageNumber="@nextPage">Next</a>
+    }
+    <br>
+    <div class="form-group">
+        <label for="pageSize">Items per page:</label>
+        <select class="form-control w-25" id="pageSize" name="pageSize">
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="25">25</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+        </select>
+    </div>
+    <a asp-action="GetAll" id="applyPageSize">Apply</a>
+</p>
+
+<script>
+    document.getElementById("applyPageSize").addEventListener("click", function () {
+        var selectedValue = document.getElementById("pageSize").value;
+        var applyLink = document.getElementById("applyPageSize");
+        applyLink.href = applyLink.href + "?PageSize=" + selectedValue;
+    });
+</script>
