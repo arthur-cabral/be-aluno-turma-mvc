@@ -24,5 +24,7 @@ namespace DesafioTecnicoAlunoTurma.Models
         [NotNull]
         [DefaultValue(true)]
         public bool Ativo { get; set; }
+
+        public IEnumerable<Turma>? Turmas { get; set; } = Enumerable.Empty<Turma>();
     }
 }
