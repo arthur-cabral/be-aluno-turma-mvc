@@ -1,4 +1,5 @@
-﻿using DesafioTecnicoAlunoTurma.Interfaces.Services;
+﻿using DesafioTecnicoAlunoTurma.DTO;
+using DesafioTecnicoAlunoTurma.Interfaces.Services;
 using DesafioTecnicoAlunoTurma.Models;
 using DesafioTecnicoAlunoTurma.Pagination;
 using DesafioTecnicoAlunoTurma.Services;
@@ -15,9 +16,9 @@ namespace DesafioTecnicoAlunoTurma.Controllers
             _alunoTurmaService = alunoTurmaService;
         }
 
-        public async Task<IActionResult> GetAll(PaginationParameters paginationParameters)
+        public async Task<IActionResult> GetAll(PaginationParametersDTO paginationParametersDTO)
         {
-            var alunoTurma = await _alunoTurmaService.GetAll(paginationParameters);
+            var alunoTurma = await _alunoTurmaService.GetAll(paginationParametersDTO);
             return View(alunoTurma);
         }
 

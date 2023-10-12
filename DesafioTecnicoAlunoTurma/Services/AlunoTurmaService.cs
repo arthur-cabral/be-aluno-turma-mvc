@@ -1,4 +1,6 @@
-﻿using DesafioTecnicoAlunoTurma.Interfaces.Repositories;
+﻿using AutoMapper;
+using DesafioTecnicoAlunoTurma.DTO;
+using DesafioTecnicoAlunoTurma.Interfaces.Repositories;
 using DesafioTecnicoAlunoTurma.Interfaces.Services;
 using DesafioTecnicoAlunoTurma.Models;
 using DesafioTecnicoAlunoTurma.Pagination;
@@ -11,23 +13,26 @@ namespace DesafioTecnicoAlunoTurma.Services
         private readonly IAlunoTurmaRepository _alunoTurmaRepository;
         private readonly IAlunoRepository _alunoRepository;
         private readonly ITurmaRepository _turmaRepository;
+        private readonly IMapper _mapper;
 
-        public AlunoTurmaService(IAlunoTurmaRepository alunoTurmaRepository, IAlunoRepository alunoRepository, ITurmaRepository turmaRepository)
+        public AlunoTurmaService(IAlunoTurmaRepository alunoTurmaRepository, IAlunoRepository alunoRepository, ITurmaRepository turmaRepository, IMapper mapper)
         {
             _alunoTurmaRepository = alunoTurmaRepository;
             _alunoRepository = alunoRepository;
             _turmaRepository = turmaRepository;
+            _mapper = mapper;
         }
 
-        public async Task<PagedList<AlunoTurma>> GetAll(PaginationParameters paginationParameters)
+        public async Task<PagedList<AlunoTurmaDTO>> GetAll(PaginationParametersDTO paginationParametersDTO)
         {
-            var alunosTurmas = await _alunoTurmaRepository.GetAll(paginationParameters);
+            var paginationParametersEntity = _mapper.Map<PaginationParameters>(paginationParametersDTO);
+            var alunosTurmas = await _alunoTurmaRepository.GetAll(paginationParametersEntity);
             foreach (var at in alunosTurmas)
             {
                 at.Turma = await _turmaRepository.GetById(at.TurmaId);
                 at.Aluno = await _alunoRepository.GetById(at.AlunoId);
             }
-            return alunosTurmas;
+            return _mapper.Map<PagedList<AlunoTurmaDTO>>(alunosTurmas);
         }
 
         public async Task<MessageResponse> Create(AlunoTurma alunoTurma)
