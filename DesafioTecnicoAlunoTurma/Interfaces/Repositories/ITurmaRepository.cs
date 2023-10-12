@@ -1,10 +1,11 @@
 ﻿using DesafioTecnicoAlunoTurma.Models;
+using DesafioTecnicoAlunoTurma.Pagination;
 
 namespace DesafioTecnicoAlunoTurma.Interfaces.Repositories
 {
     public interface ITurmaRepository
     {
-        Task<IEnumerable<Turma>> GetAll();
+        Task<PagedList<Turma>> GetAll(PaginationParameters paginationParameters);
         Task<Turma> GetById(int id);
         Task<bool> Exists(int id);
         Task Create(Turma aluno);

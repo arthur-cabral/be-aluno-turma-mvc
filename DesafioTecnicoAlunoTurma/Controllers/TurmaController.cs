@@ -1,5 +1,6 @@
 ﻿using DesafioTecnicoAlunoTurma.Interfaces.Services;
 using DesafioTecnicoAlunoTurma.Models;
+using DesafioTecnicoAlunoTurma.Pagination;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DesafioTecnicoAlunoTurma.Controllers
@@ -13,9 +14,9 @@ namespace DesafioTecnicoAlunoTurma.Controllers
             _turmaService = turmaService;
         }
 
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll(PaginationParameters paginationParameters)
         {
-            var turmas = await _turmaService.GetAll();
+            var turmas = await _turmaService.GetAll(paginationParameters);
             return View(turmas);
         }
 

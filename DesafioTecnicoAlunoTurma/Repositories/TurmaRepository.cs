@@ -2,6 +2,7 @@
 using DesafioTecnicoAlunoTurma.Infrastructure;
 using DesafioTecnicoAlunoTurma.Interfaces.Repositories;
 using DesafioTecnicoAlunoTurma.Models;
+using DesafioTecnicoAlunoTurma.Pagination;
 using System.Transactions;
 
 namespace DesafioTecnicoAlunoTurma.Repositories
@@ -11,16 +12,21 @@ namespace DesafioTecnicoAlunoTurma.Repositories
         public TurmaRepository(DbContext context) : base(context)
         {
         }
-        public async Task<IEnumerable<Turma>> GetAll()
+        public async Task<PagedList<Turma>> GetAll(PaginationParameters paginationParameters)
         {
             const string sql = @"select
                                id,
                                nome_turma as NomeTurma,
                                ano
                                from dbo.turma
-                               where ativo = 1";
-
-            return await Connection.QueryAsync<Turma>(sql, Transaction);
+                               where ativo = 1 order by id offset @offset rows fetch next @limit rows only"
+            ;
+            var result = await Connection.QueryAsync<Turma>(sql, new { offset = paginationParameters.PageNumber, limit = paginationParameters.PageSize }, Transaction);
+            return PagedList<Turma>.ToPagedList(
+            result.AsQueryable(),
+                paginationParameters.PageNumber,
+                paginationParameters.PageSize
+            );
         }
 
         public async Task<Turma> GetById(int id)
