@@ -4,7 +4,7 @@
     ViewData["Title"] = "GetAll";
 }
 
-<h1>GetAll</h1>
+<h1>Lista de todos os alunos</h1>
 
 <p>
     <a asp-action="FormCreateAluno">Create New</a>
@@ -20,9 +20,6 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Usuario)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Senha)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Ativo)
@@ -41,9 +38,6 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Usuario)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Senha)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Ativo)

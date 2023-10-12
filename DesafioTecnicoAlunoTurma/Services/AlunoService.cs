@@ -1,6 +1,7 @@
 ﻿using DesafioTecnicoAlunoTurma.Interfaces.Repositories;
 using DesafioTecnicoAlunoTurma.Interfaces.Services;
 using DesafioTecnicoAlunoTurma.Models;
+using static BCrypt.Net.BCrypt;
 
 namespace DesafioTecnicoAlunoTurma.Services
 {
@@ -29,8 +30,11 @@ namespace DesafioTecnicoAlunoTurma.Services
 
         public async Task<MessageResponse> Create(Aluno aluno)
         {
+            const int WorkFactor = 12;
             try
             {
+                var hashedPassword = HashPassword(aluno.Senha, WorkFactor);
+                aluno.Senha = hashedPassword;
                 aluno.Ativo = true;
                 await _alunoRepository.Create(aluno);
                 return new MessageResponse(true, "Aluno criado com sucesso!");

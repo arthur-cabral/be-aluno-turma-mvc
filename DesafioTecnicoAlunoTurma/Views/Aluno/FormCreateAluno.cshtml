@@ -4,6 +4,39 @@
     ViewData["Title"] = "Create";
 }
 
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/js/passwordStrengthMeter.js"></script>
+<script language="javascript">
+    var result = "";
+    jQuery(document).ready(function () {
+        $('#txtpassword').keyup(function () {
+            $('#result').html(passwordStrength($('#txtpassword').val(), ""))
+            result = $('#result').html();
+            if (result == "Muito Curta") {
+                $('#result').attr({ 'style': 'color:Red;' });
+            }
+            if (result == "Ruim") {
+                $('#result').attr({ 'style': 'color:Olive;' });
+            }
+            if (result == "Boa") {
+                $('#result').attr({ 'style': 'color:Lime;' });
+            }
+            if (result == "Forte") {
+                $('#result').attr({ 'style': 'color:Green;' });
+            }
+        })
+    })
+    function ValidateForm() {
+        if (result == "Boa" || result == "Forte") {
+            return true;
+        }
+        else {
+            alert("A senha é FRACA.");
+            return false;
+        }
+    }
+</script>
+
 <h4>Aluno</h4>
 <hr />
 <div class="row">
@@ -22,11 +55,11 @@
             </div>
             <div class="form-group">
                 <label asp-for="Senha" class="control-label"></label>
-                <input asp-for="Senha" class="form-control" />
-                <span asp-validation-for="Senha" class="text-danger"></span>
+                <input asp-for="Senha" type="password" id="txtpassword" class="form-control" />
+                <span asp-validation-for="Senha" id="result" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Create" onclick="javascript:return ValidateForm();" class="btn btn-primary" />
             </div>
         </form>
     </div>
