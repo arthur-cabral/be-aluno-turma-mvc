@@ -27,14 +27,9 @@
                 <input asp-for="Usuario" class="form-control" />
                 <span asp-validation-for="Usuario" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Senha" class="control-label"></label>
-                <input asp-for="Senha" class="form-control" />
-                <span asp-validation-for="Senha" class="text-danger"></span>
-            </div>
             <div class="form-group form-check">
                 <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Ativo" checked="@Model.Ativo" /> @Html.DisplayNameFor(model => model.Ativo)
+                    <input class="form-check-input" asp-for="Ativo" checked="true" /> @Html.DisplayNameFor(model => model.Ativo)
                 </label>
             </div>
             <div class="form-group">
