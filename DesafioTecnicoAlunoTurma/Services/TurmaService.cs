@@ -40,7 +40,7 @@ namespace DesafioTecnicoAlunoTurma.Services
             try
             {
                 DateTime dateTime = DateTime.Now;
-                if (turmaDTO.Ano <= dateTime.Year)
+                if (turmaDTO.Ano < dateTime.Year)
                 {
                     throw new Exception("Não é possível criar uma turma com o ano anterior ao atual");
                 }
