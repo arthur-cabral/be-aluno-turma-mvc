@@ -3,7 +3,7 @@ Neste projeto, realizo o desafio técnico proposto pela FIAP para a vaga de dese
 
 # Configuração
 
-Antes de prosseguir, é necessário criar um arquivo com o nome `.appsettings.json` no diretório `./DesafioTecnicoAlunoTurma`. 
+Antes de prosseguir, é necessário criar um arquivo com o nome `appsettings.json` no diretório `./DesafioTecnicoAlunoTurma`. 
 
 Copie o trecho de código abaixo para o arquivo. 
 
