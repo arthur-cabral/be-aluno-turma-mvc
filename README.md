@@ -1,5 +1,6 @@
-# DesafioTecnicoFIAP
-Neste projeto, realizo o desafio técnico proposto pela FIAP para a vaga de desenvolvedor .NET
+# ProjetoAlunoTurmaRazor
+
+Neste projeto, desenvolvi páginas utilizando o Razor para uma aplicação de relacionamento Aluno-Turma.
 
 # Configuração
 
